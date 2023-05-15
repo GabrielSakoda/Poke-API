@@ -1,0 +1,185 @@
+body{
+    font-family: 'Poppins', sans-serif;
+    max-width: 1280px;
+    margin: 0 auto;
+    background-color: #5e5b5bad;
+    background-image: url(https://i.pinimg.com/originals/93/98/94/9398944b931f51d4ab0a8e92f44ca452.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #333333;
+ }
+
+ body.modo-escuro{
+    background-image: url(https://cdn.wallpapersafari.com/47/77/4LxYuy.png);
+    background-color: #212121;
+    color: #f5f5f5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+ }
+
+ header{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    align-items: center;
+ }
+
+ header .logo, 
+ header .imagem-botao{
+    width: 50px;
+    transition: 0.2s ease-in-out;
+ }
+
+ header .pokemon-logo{
+    width: 200px;
+    height: 100px;
+    transition: 0.2s ease-in-out;
+ }
+
+ header #botao-alterar-tema{
+    background: none;
+    border: none;
+    cursor: pointer;
+ }
+
+ header .logo:hover, 
+ header .imagem-botao:hover,
+ main .cartao-pokemon:hover,
+ header .pokemon-logo:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+ }
+
+ main{
+    padding: 25px;
+ }
+
+main .listagem-pokemon{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+main .cartao-pokemon{
+    background-color: #d8e3ec;
+    width: 200px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; 
+    border-radius: 15px;
+    transition: 0.2s ease-in-out;
+}
+
+main .cartao-pokemon:hover{
+    background-color: #96d9d6;
+}
+
+.modo-escuro .cartao-pokemon{
+    background-color: #6e6e6e;
+}
+
+main .cartao-pokemon .informacoes{
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid #333333;
+    border-radius: 10px;
+}
+main .cartao-pokemon .informacoes span{
+    padding: 5px;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+
+main .cartao-pokemon .gif{
+    width: 90px;
+    height: 90px;
+}
+
+main .cartao-pokemon .tipos{
+    display: flex;
+    gap: 15px;
+}
+
+main .cartao-pokemon .tipo{
+    padding: 8px;
+    border-radius: 10px;
+}
+
+ .steel {
+	background-color: #b9b6b6;
+}
+
+ .fire {
+	background-color: #ee8130;
+}
+
+ .grass, .poison {
+    background-color: #7ac74c;
+  }
+  
+
+.electric {
+	background-color: #cddd3b;
+}
+
+.water, .ice {
+	background-color: #6390f0;
+}
+
+.ground {
+	background-color: #db8f43;
+}
+
+.rock {
+	background-color: #a7a7a5;
+}
+
+.fairy {
+	background-color: #c045d6;
+}
+
+.bug {
+	background-color: #a6b91a;
+}
+
+.dragon {
+	background-color: #ff0000;
+}
+
+.psychic {
+	background-color: #c050e2;
+}
+
+.flying {
+	background-color: #32c5d8;
+}
+
+.fighting {
+	background-color: #e78b8b;
+}
+
+.normal {
+	background-color: #982ab3;
+}
+
+.dark {
+    background-color: #757575;
+}
+
+.ghost {
+    background-color: #9ca4aa
+}
+
+main .descricao{
+    max-height: 80px;
+    overflow-y: scroll;
+    font-size: 14px;
+    padding-right: 10px;
+}
+
+

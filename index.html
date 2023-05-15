@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Api Pokédex</title>
+    <link rel="icon" href="./src/IMGS/pokeball.png" />
+
+    <link rel="stylesheet" href="./src/css/estilos.css" />
+    <link rel="stylesheet" href="./src/css/reset.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a href="index.html">
+        <img src="./src/IMGS/pokeball.png" alt="pokebola" class="logo" />
+      </a>
+      <img src="./src/IMGS/pokemon-logo.png" alt="" class="pokemon-logo" />
+      <button id="botao-alterar-tema">
+        <img
+          src="./src/IMGS/sun.png"
+          alt="imagem do sol"
+          class="imagem-botao"
+        />
+      </button>
+    </header>
+    <main class="container">
+      <ul data-js="pokedex" class="listagem-pokemon"></ul>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
