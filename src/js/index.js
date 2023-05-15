@@ -3,7 +3,7 @@ const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
 const getPokemonUrl = (id) => `${BASE_URL}${id}`;
 
 const generatePokemonPromises = () =>
-  Array.from({ length: 350 }, (_, index) =>
+  Array.from({ length: 200 }, (_, index) =>
     fetch(getPokemonUrl(index + 1)).then((response) => response.json())
   );
 
