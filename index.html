@@ -6,34 +6,406 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Api Pokédex</title>
     <link rel="icon" href="./src/IMGS/pokeball.png" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="./src/css/estilos.css" />
-    <link rel="stylesheet" href="./src/css/reset.css" />
-
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap" rel="stylesheet" />
+    
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #e4e3e3ad;
+        background-image: url(https://i.pinimg.com/originals/93/98/94/9398944b931f51d4ab0a8e92f44ca452.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        color: #bebebe;
+        min-height: 100vh;
+      }
+
+      body.modo-escuro {
+        background-image: url(https://cdn.wallpapersafari.com/47/77/4LxYuy.png);
+        background-color: #212121;
+        color: #f5f5f5;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        align-items: center;
+      }
+
+      header .logo,
+      header .imagem-botao {
+        width: 50px;
+        transition: 0.2s ease-in-out;
+      }
+
+      header .pokemon-logo {
+        width: 200px;
+        height: 100px;
+        transition: 0.2s ease-in-out;
+      }
+
+      header .btn-theme {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      header .logo:hover,
+      header .imagem-botao:hover,
+      header .pokemon-logo:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+      }
+
+      .cartao-pokemon {
+        background-color: #e8e8e8 !important;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        border-radius: 15px;
+        transition: 0.2s ease-in-out;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+
+      .cartao-pokemon:hover {
+        background-color: #d0d0d0 !important;
+        transform: scale(1.05);
+      }
+
+      .modo-escuro .cartao-pokemon {
+        background-color: #2d2d2d !important;
+      }
+
+      .modo-escuro .cartao-pokemon:hover {
+        background-color: #3d3d3d !important;
+      }
+
+      .cartao-pokemon .informacoes {
+        display: flex;
+        justify-content: space-between;
+        border: 2px solid #333333;
+        border-radius: 10px;
+        width: 100%;
+      }
+
+      .cartao-pokemon .informacoes span {
+        padding: 5px;
+        text-transform: uppercase;
+        font-size: 17px;
+        color: #333333;
+      }
+
+      .modo-escuro .cartao-pokemon .informacoes {
+        border-color: #666666;
+      }
+
+      .modo-escuro .cartao-pokemon .informacoes span {
+        color: #ffffff;
+      }
+
+      .cartao-pokemon .gif {
+        width: 90px;
+        height: 90px;
+      }
+
+      .cartao-pokemon .tipos {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .cartao-pokemon .tipo {
+        padding: 8px;
+        border-radius: 10px;
+        color: #333333;
+        font-weight: 500;
+      }
+
+      /* Tipos de Pokémon */
+      .steel { background-color: #b9b6b6; }
+      .fire { background-color: #ee8130; }
+      .grass, .poison { background-color: #7ac74c; }
+      .electric { background-color: #cddd3b; }
+      .water, .ice { background-color: #6390f0; }
+      .ground { background-color: #db8f43; }
+      .rock { background-color: #a7a7a5; }
+      .fairy { background-color: #c045d6; }
+      .bug { background-color: #a6b91a; }
+      .dragon { background-color: #ff0000; }
+      .psychic { background-color: #c050e2; }
+      .flying { background-color: #32c5d8; }
+      .fighting { background-color: #e78b8b; }
+      .normal { background-color: #982ab3; }
+      .dark { background-color: #757575; }
+      .ghost { background-color: #9ca4aa; }
+
+      /* Estilos dos filtros */
+      .form-control:focus,
+      .form-select:focus {
+        background-color: #1a1a1a !important;
+        border-color: #6390f0 !important;
+        color: #fff !important;
+        box-shadow: 0 0 0 0.25rem rgba(99, 144, 240, 0.25);
+      }
+
+      .input-group-text {
+        font-size: 18px;
+      }
+
+      .btn-outline-secondary {
+        color: #fff;
+        border-color: #6c757d;
+      }
+
+      .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+      }
+
+      .loading-spinner {
+        text-align: center;
+        padding: 50px;
+        font-size: 24px;
+        color: #fff;
+      }
+    </style>
   </head>
   <body>
-    <header>
-      <a href="index.html">
-        <img src="./src/IMGS/pokeball.png" alt="pokebola" class="logo" />
-      </a>
-      <img src="./src/IMGS/pokemon-logo.png" alt="" class="pokemon-logo" />
-      <button id="botao-alterar-tema">
-        <img
-          src="./src/IMGS/sun.png"
-          alt="imagem do sol"
-          class="imagem-botao"
-        />
-      </button>
-    </header>
-    <main class="container">
-      <ul data-js="pokedex" class="listagem-pokemon"></ul>
-    </main>
-    <script src="index.js"></script>
+    <div id="app">
+      <header>
+        <a href="index.html">
+          <img src="./src/IMGS/pokeball.png" alt="pokebola" class="logo" />
+        </a>
+        <img src="./src/IMGS/pokemon-logo.png" alt="Pokémon Logo" class="pokemon-logo" />
+        <button class="btn-theme" @click="toggleTheme">
+          <img :src="themeIcon" alt="Alterar tema" class="imagem-botao" />
+        </button>
+      </header>
+      
+      <main class="container">
+        <!-- Barra de Pesquisa e Filtros -->
+        <div v-if="!loading" class="mb-4">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white border-secondary">
+                  <i>🔍</i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control bg-dark text-white border-secondary" 
+                  placeholder="Buscar Pokémon por nome ou número..."
+                  v-model="searchTerm"
+                  @input="filterPokemons"
+                />
+                <button 
+                  v-if="searchTerm" 
+                  class="btn btn-outline-secondary" 
+                  @click="clearSearch"
+                  type="button"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <select 
+                class="form-select bg-dark text-white border-secondary" 
+                v-model="selectedType"
+                @change="filterPokemons"
+              >
+                <option value="">Todos os Tipos</option>
+                <option value="normal">Normal</option>
+                <option value="fire">Fire</option>
+                <option value="water">Water</option>
+                <option value="electric">Electric</option>
+                <option value="grass">Grass</option>
+                <option value="ice">Ice</option>
+                <option value="fighting">Fighting</option>
+                <option value="poison">Poison</option>
+                <option value="ground">Ground</option>
+                <option value="flying">Flying</option>
+                <option value="psychic">Psychic</option>
+                <option value="bug">Bug</option>
+                <option value="rock">Rock</option>
+                <option value="ghost">Ghost</option>
+                <option value="dragon">Dragon</option>
+                <option value="dark">Dark</option>
+                <option value="steel">Steel</option>
+                <option value="fairy">Fairy</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-2 text-white">
+            <small>Mostrando {{ filteredPokemons.length }} de {{ pokemons.length }} Pokémons</small>
+          </div>
+        </div>
+
+        <div v-if="loading" class="loading-spinner">
+          <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-3">Carregando Pokémons...</p>
+          <p v-if="pokemons.length > 0" class="text-light">
+            {{ pokemons.length }} de 350 carregados
+          </p>
+          <div v-if="pokemons.length > 0" class="progress mx-auto mt-2" style="width: 300px; height: 25px;">
+            <div 
+              class="progress-bar progress-bar-striped progress-bar-animated bg-info" 
+              :style="{ width: ((pokemons.length / 350) * 100) + '%' }"
+              role="progressbar"
+            >
+              {{ Math.round((pokemons.length / 350) * 100) }}%
+            </div>
+          </div>
+        </div>
+        
+        <div v-else-if="filteredPokemons.length === 0" class="text-center text-white py-5">
+          <h3>Nenhum Pokémon encontrado 😢</h3>
+          <p>Tente ajustar os filtros ou termo de busca.</p>
+        </div>
+        
+        <div v-else class="row g-4">
+          <div v-for="pokemon in filteredPokemons" :key="pokemon.id" class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="cartao-pokemon">
+              <div class="informacoes">
+                <span>{{ pokemon.name.toUpperCase() }}</span>
+                <span>#{{ pokemon.id }}</span>
+              </div>
+              <img
+                class="gif"
+                :alt="pokemon.name"
+                :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${pokemon.id}.gif`"
+              />
+              <ul class="tipos">
+                <li :class="['tipo', pokemon.types[0].type.name]">
+                  {{ capitalize(pokemon.types[0].type.name) }}
+                </li>
+                <li v-if="pokemon.types[1]" :class="['tipo', pokemon.types[1].type.name]">
+                  {{ capitalize(pokemon.types[1].type.name) }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          pokemons: [],
+          filteredPokemons: [],
+          loading: true,
+          modoEscuro: false,
+          themeIcon: './src/IMGS/sun.png',
+          searchTerm: '',
+          selectedType: ''
+        },
+        methods: {
+          capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          },
+          
+          toggleTheme() {
+            this.modoEscuro = !this.modoEscuro;
+            document.body.classList.toggle('modo-escuro');
+            this.themeIcon = this.modoEscuro ? './src/IMGS/moon.png' : './src/IMGS/sun.png';
+          },
+          
+          filterPokemons() {
+            let filtered = this.pokemons;
+            
+            // Filtro por termo de busca (nome ou número)
+            if (this.searchTerm) {
+              const term = this.searchTerm.toLowerCase().trim();
+              filtered = filtered.filter(pokemon => {
+                const nameMatch = pokemon.name.toLowerCase().includes(term);
+                const idMatch = pokemon.id.toString().includes(term);
+                return nameMatch || idMatch;
+              });
+            }
+            
+            // Filtro por tipo
+            if (this.selectedType) {
+              filtered = filtered.filter(pokemon => {
+                return pokemon.types.some(type => type.type.name === this.selectedType);
+              });
+            }
+            
+            this.filteredPokemons = filtered;
+          },
+          
+          clearSearch() {
+            this.searchTerm = '';
+            this.filterPokemons();
+          },
+          
+          async fetchPokemons() {
+            const TOTAL_POKEMONS = 350;
+            const BATCH_SIZE = 50; // Carregar em lotes de 50
+            
+            try {
+              // Usando Axios ao invés de fetch - sintaxe mais limpa!
+              const { data: listData } = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${TOTAL_POKEMONS}`, {
+                timeout: 10000 // Timeout de 10 segundos
+              });
+              
+              // Carrega os pokémons em lotes para melhor performance
+              for (let i = 0; i < listData.results.length; i += BATCH_SIZE) {
+                const batch = listData.results.slice(i, i + BATCH_SIZE);
+                
+                // Axios retorna .data automaticamente, sem precisar de .json()
+                const batchPromises = batch.map(pokemon => 
+                  axios.get(pokemon.url, { timeout: 5000 })
+                    .then(response => response.data)
+                );
+                
+                const batchResults = await Promise.all(batchPromises);
+                this.pokemons.push(...batchResults);
+                this.filteredPokemons = [...this.pokemons]; // Atualiza progressivamente
+                
+                // Pequeno delay para não sobrecarregar
+                if (i + BATCH_SIZE < listData.results.length) {
+                  await new Promise(resolve => setTimeout(resolve, 100));
+                }
+              }
+              
+              this.loading = false;
+            } catch (error) {
+              console.error('Erro ao carregar pokémons:', error);
+              if (error.code === 'ECONNABORTED') {
+                console.error('Timeout: A requisição demorou muito');
+              }
+              this.loading = false;
+            }
+          }
+        },
+        mounted() {
+          this.fetchPokemons();
+        }
+      });
+    </script>
   </body>
 </html>
